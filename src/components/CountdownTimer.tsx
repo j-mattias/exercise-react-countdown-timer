@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 import "./CountdownTimer.css";
+import CountDownButtons from "./CountDownButtons";
+import TimerInput from "./TimerInput";
 
 const TIME = 60;
 
@@ -40,28 +42,14 @@ function CountdownTimer() {
     setTime(value);
   };
 
-  // Conditional button handling
-  const handleOnClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    const target = e.target as HTMLElement;
+  // Handler to setIsActive from CountDownButtons component
+  const handleSetIsActive = (bool: boolean) => {
+    setIsActive(bool);
+  };
 
-    // Early return if target isn't a button
-    if (target.tagName !== "BUTTON") {
-      return;
-    }
-
-    // Setup functionality for different buttons
-    if (target.classList.contains("btn-start")) {
-      setIsActive(true);
-    }
-
-    if (target.classList.contains("btn-pause")) {
-      setIsActive(false);
-    }
-
-    if (target.classList.contains("btn-reset")) {
-      setTimeLeft(time);
-      setIsActive(false);
-    }
+  // Handler to setTimeLeft from CountDownButtons component
+  const handleSetTimeLeft = () => {
+    setTimeLeft(time);
   };
 
   return (
@@ -69,29 +57,14 @@ function CountdownTimer() {
       <h1>Countdown Timer</h1>
       {timeLeft > 0 ? <h2>{timeLeft} seconds left</h2> : <h2>Timer finished!</h2>}
 
-      <div className="input-wrapper">
-        <label htmlFor="set-time">{isNaN(time) ? "Enter a valid number" : null}</label>
-        <input
-          id="set-time"
-          onChange={(e) => handleInput(e)}
-          type="number"
-          min="0"
-          className="timer-input"
-          /* Cast to string to avoid error */
-          value={String(time)}
-          placeholder="10"
-          disabled={isActive}
-        />
-      </div>
-      <div className="button-wrapper" onClick={handleOnClick}>
-        <button className="btn-start" disabled={isActive || timeLeft <= 0 || isNaN(time)}>
-          Start
-        </button>
-        <button className="btn-pause" disabled={!isActive}>
-          Pause
-        </button>
-        <button className="btn-reset">Reset</button>
-      </div>
+      <TimerInput time={time} handleInput={handleInput} isActive={isActive} />
+      <CountDownButtons
+        setIsActive={handleSetIsActive}
+        setTimeLeft={handleSetTimeLeft}
+        timeLeft={timeLeft}
+        isActive={isActive}
+        time={time}
+      />
     </section>
   );
 }
