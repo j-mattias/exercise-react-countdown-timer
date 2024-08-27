@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import "./CountdownTimer.css";
 
-const TIME = 3;
+const TIME = 60;
 
 function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState<number>(TIME);
@@ -40,6 +40,30 @@ function CountdownTimer() {
     setTime(value);
   };
 
+  // Conditional button handling
+  const handleOnClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    const target = e.target as HTMLElement;
+
+    // Early return if target isn't a button
+    if (target.tagName !== "BUTTON") {
+      return;
+    }
+
+    // Setup functionality for different buttons
+    if (target.classList.contains("btn-start")) {
+      setIsActive(true);
+    }
+
+    if (target.classList.contains("btn-pause")) {
+      setIsActive(false);
+    }
+
+    if (target.classList.contains("btn-reset")) {
+      setTimeLeft(time);
+      setIsActive(false);
+    }
+  };
+
   return (
     <section className="countdown">
       <h1>Countdown Timer</h1>
@@ -56,26 +80,17 @@ function CountdownTimer() {
           /* Cast to string to avoid error */
           value={String(time)}
           placeholder="10"
+          disabled={isActive}
         />
       </div>
-      <div className="button-wrapper">
-        <button
-          disabled={isActive || timeLeft <= 0 || isNaN(time)}
-          onClick={() => setIsActive(true)}
-        >
+      <div className="button-wrapper" onClick={handleOnClick}>
+        <button className="btn-start" disabled={isActive || timeLeft <= 0 || isNaN(time)}>
           Start
         </button>
-        <button disabled={!isActive} onClick={() => setIsActive(false)}>
+        <button className="btn-pause" disabled={!isActive}>
           Pause
         </button>
-        <button
-          onClick={() => {
-            setTimeLeft(time);
-            setIsActive(false);
-          }}
-        >
-          Reset
-        </button>
+        <button className="btn-reset">Reset</button>
       </div>
     </section>
   );
