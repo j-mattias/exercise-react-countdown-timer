@@ -1,43 +1,18 @@
 import { ReactElement } from "react";
 
 interface ICountDownButtonsProps {
-  setIsActive: (bool: boolean) => void;
-  setTimeLeft: () => void;
+  handleOnClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   timeLeft: number;
   isActive: boolean;
   time: number;
 }
 
 function CountDownButtons({
-  setIsActive,
-  setTimeLeft,
+  handleOnClick,
   timeLeft,
   isActive,
   time,
 }: ICountDownButtonsProps): ReactElement {
-  // Conditional button handling
-  const handleOnClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    const target = e.target as HTMLElement;
-
-    // Early return if target isn't a button
-    if (target.tagName !== "BUTTON") {
-      return;
-    }
-
-    // Setup functionality for different buttons
-    if (target.classList.contains("btn-start")) {
-      setIsActive(true);
-    }
-
-    if (target.classList.contains("btn-pause")) {
-      setIsActive(false);
-    }
-
-    if (target.classList.contains("btn-reset")) {
-      setTimeLeft();
-      setIsActive(false);
-    }
-  };
 
   return (
     <div className="button-wrapper" onClick={handleOnClick}>

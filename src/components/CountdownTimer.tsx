@@ -42,14 +42,28 @@ function CountdownTimer() {
     setTime(value);
   };
 
-  // Handler to setIsActive from CountDownButtons component
-  const handleSetIsActive = (bool: boolean) => {
-    setIsActive(bool);
-  };
+  // Conditional button handling
+  const handleOnClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    const target = e.target as HTMLElement;
 
-  // Handler to setTimeLeft from CountDownButtons component
-  const handleSetTimeLeft = () => {
-    setTimeLeft(time);
+    // Early return if target isn't a button
+    if (target.tagName !== "BUTTON") {
+      return;
+    }
+
+    // Setup functionality for different buttons
+    if (target.classList.contains("btn-start")) {
+      setIsActive(true);
+    }
+
+    if (target.classList.contains("btn-pause")) {
+      setIsActive(false);
+    }
+
+    if (target.classList.contains("btn-reset")) {
+      setTimeLeft(time);
+      setIsActive(false);
+    }
   };
 
   return (
@@ -59,8 +73,7 @@ function CountdownTimer() {
 
       <TimerInput time={time} handleInput={handleInput} isActive={isActive} />
       <CountDownButtons
-        setIsActive={handleSetIsActive}
-        setTimeLeft={handleSetTimeLeft}
+        handleOnClick={handleOnClick}
         timeLeft={timeLeft}
         isActive={isActive}
         time={time}
