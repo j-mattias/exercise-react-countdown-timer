@@ -1,50 +1,56 @@
-# React + TypeScript + Vite
+## Övning: Skapa en Nedräkningstimer med React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Mål
+I denna övning kommer du att skapa en nedräkningstimer i React. Timern ska starta från ett givet antal sekunder och räkna ner varje sekund. Du kommer att använda React-hooks som `useEffect` och `useRef` för att hantera timer-logiken.
 
-Currently, two official plugins are available:
+### Steg för Steg
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. **Skapa en React-komponent:**
+   Skapa en ny komponent som heter `CountdownTimer`. Denna komponent ska visa hur många sekunder som är kvar på timern.
 
-## Expanding the ESLint configuration
+2. **Lägg till state:**
+   Använd `useState` för att skapa två tillstånd:
+   - `timeLeft`: för att hålla reda på antalet sekunder som är kvar.
+   - `isActive`: för att hålla reda på om timern är aktiv eller inte.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+3. **Använd `useRef`:**
+   Skapa en referens med `useRef` för att hålla referensen till timern. Denna referens behövs för att kunna starta och stoppa timern.
 
-- Configure the top-level `parserOptions` property like this:
+4. **Implementera `useEffect`:**
+   Använd `useEffect` för att starta timern när `isActive` är `true`, och uppdatera `timeLeft` varje sekund. När `timeLeft` når 0, ska timern stoppas automatiskt.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+5. **Lägg till knappar:**
+   Lägg till tre knappar:
+   - **Starta:** Startar timern.
+   - **Pausa:** Pausar timern.
+   - **Återställ:** Återställer timern till 60 sekunder.
+
+### Exempelkod
+Här är en grundläggande struktur för komponenten:
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+
+function CountdownTimer() {
+
+    return (
+        <div>
+            <h1>Nedräkningstimer</h1>
+            <h2>{timeLeft} sekunder kvar</h2>
+            <button>Starta</button>
+            <button>Pausa</button>
+            <button>Återställ</button>
+        </div>
+    );
+}
+
+export default CountdownTimer;
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Utmaningar
+Försök att utöka funktionaliteten med följande:
+1. **Anpassad starttid:** Lägg till en inmatningsruta där användaren kan ange en anpassad starttid för timern.
+2. **Meddelande vid slutet:** Visa ett meddelande, t.ex. "Tidens slut!", när timern når 0.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Syfte
+Den här övningen hjälper dig att förstå hur `useEffect` kan användas för att hantera sid-effekter som en timer, och hur `useRef` kan användas för att behålla en referens till ett intervall eller timeout.
