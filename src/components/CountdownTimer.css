@@ -4,6 +4,10 @@
   gap: 1rem;
   align-items: center;
 
+  & .countdown__finished {
+    color: rgb(19, 161, 79);
+  }
+
   & .input-wrapper {
     display: flex;
     flex-direction: column;
